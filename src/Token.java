@@ -1,13 +1,13 @@
 public class Token{
     TokenType type;
     String value;
-    Token(TokenType Type){//Token(Function)
-        this.type = Type;
-    }
-    Token(TokenType Type, String Value){//Token(Intenger, "2") or Token(Float, "1.2")
+
+    //Token(Intenger, "2") or Token(Float, "1.2")
+    Token(TokenType Type, String Value){
         this.type = Type;
         this.value = Value;
     }
+
     public TokenType getType(){
         return this.type;
     }
