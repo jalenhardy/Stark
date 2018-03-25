@@ -20,7 +20,7 @@ public class Lexer {
         }
 
         run();
-        System.out.println(tokens);
+
     }
 
     private void run(){
@@ -65,5 +65,9 @@ public class Lexer {
                 }
             }
         }
+    }
+
+    public List<Token> getTokens() {
+        return tokens;
     }
 }
