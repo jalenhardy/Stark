@@ -1,13 +1,18 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Lexer {
     private Scanner scanner;
+    private List<Token> tokens;
 
     // To be updated
     public Lexer(String filepath){
         File file = new File(filepath);
+        tokens = new ArrayList<>();
+
         try {
             scanner = new Scanner(file);
         } catch (FileNotFoundException e) {
@@ -15,6 +20,7 @@ public class Lexer {
         }
 
         run();
+        System.out.println(tokens);
     }
 
     private void run(){
@@ -24,8 +30,39 @@ public class Lexer {
 
             // Integer
             if (word.matches("^[0-9]*$")){
-                Token token = new Token(TokenType.INTEGER, word);
-                System.out.printf("Found integer: %s\n", token.getValue());
+                tokens.add(new Token(TokenType.INTEGER, word));
+            }
+            // Float
+            else if (word.matches("[+-]?((\\d+\\.?\\d*)|(\\.\\d+))")){
+                tokens.add(new Token(TokenType.FLOAT, word));
+            }
+            // If word is an Operation
+            else{
+                switch (word){
+                    case "+":{
+                        tokens.add(new Token(TokenType.OPERATION, "ADDITION"));
+                        break;
+                    }
+                    case "-":{
+                        tokens.add(new Token(TokenType.OPERATION, "SUBTRACTION"));
+                        break;
+                    }
+                    case "*":{
+                        tokens.add(new Token(TokenType.OPERATION, "*MULTIPLICATION"));
+                        break;
+                    }
+                    case "/":{
+                        tokens.add(new Token(TokenType.OPERATION, "DIVISION"));
+                        break;
+                    }
+                    case "%":{
+                        tokens.add(new Token(TokenType.OPERATION, "MODULUS"));
+                        break;
+                    }
+                    default:
+                        System.out.println("Invalid");
+
+                }
             }
         }
     }

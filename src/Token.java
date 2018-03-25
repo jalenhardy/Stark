@@ -17,4 +17,9 @@ public class Token{
     public Token getToken(){
         return this;
     }
+
+    @Override
+    public String toString() {
+        return getValue();
+    }
 }
