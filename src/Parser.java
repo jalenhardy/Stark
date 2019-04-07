@@ -1,72 +1,76 @@
-import java.util.List;
 import java.util.ArrayList;
-//Naming Choices are confusing
+import java.util.List;
+
 
 public class Parser{
-    private List<Token> tokens;
-    private List<Node> tree;
-    Parser(List<Token> Tokens){
-        tokens = new ArrayList<>();
-        this.tokens = Tokens;
+    List<Node> tree;
+    List<Token> tokens;
+    public Parser(List<Token> tokens){
+        this.tokens = tokens;
         tree = new ArrayList<>();
+        generateTree();
     }
-    private void run(){
-        for(int i = 0; i < tokens.size(); i++){
-            if((tokens.get(i).getType == TokenType.INTEGER || tokens.get(i).getType == TokenType.FLOAT) && tokens.get(i+1).getType == TokenType.OPERATION){
-                Operation oper = new Operation(tokens.get(i), tokens.get(i+1), tokens.get(i+2));
-                Tree.add(oper);
-                i += 3;
+    private void generateTree(){
+        try{
+        for(int i = 0; i < tokens.size();i++){
+            if(tokens.get(i).getType() == TokenType.INTEGER || tokens.get(i).getType() == TokenType.FLOAT && tokens.get(i+1).getType() == TokenType.OPERATION){
+                Num tempNum = new Num(tokens.get(i));
+                Num tempNum2 = new Num(tokens.get(i+2));
+                Op tempOp = new Op(tempNum,tokens.get(i+1), tempNum2);
+                tree.add(tempOp);
+                i+=2;
             }
-            else if(tokens.get(i).getType == TokenType.PRINT && tokens.get(i+1).getType == TokenType.PAROPEN){
-                if(token.get(i+2)).getType == TokenType.PARCLOSE){
-                    System.print("Err You Stupid piece of....");
-                }
-                else{
-                    Content toPrintOut = new Content();
-                    Int pI = i+1;
-                    do{
-                        pI++;
-                        toPrintOut.addToken(tokens.get(pI));
-                    }while(tokens.get(pI).getType != TokenType.PARCLOSE);
-                    PrintOut outPut = new PrintOut(toPrintOut);
-                    tree.add(outPut);
-                }
-            }
+        }}catch(IndexOutOfBoundsException e){
+            System.out.println("Operations must be entered x + y, not x +y or x+ y");
         }
     }
+    List<Node> getTree(){
+        return tree;
+    }
 
 }
+
+
 interface Node{
+    int execute();
+
 }
-class Num implements Node{
+
+
+class Num{
     Token number;
-    Num(Token Number){
-        this.number = Number;
+    Num(Token number){
+        this.number = number;
+    }
+    public Token getToken(){
+        return this.number;
     }
 }
-class Operation implements Node{
-    Node left;
-    Left right;
+class Op implements Node{
+    Num left;
+    Num right;
     Token op;
-    Operation(Token Left, Token OP, Token Right){
-        this.left = Term1;
-        this.right = Term2;
+    Op(Num Left, Token OP,Num Right){
+        this.left = Left;
+        this.right = Right;
         this.op = OP;
     }
-
-}
-class Content{
-    List<Token> in;
-    Content(){
-        in = new ArrayList<>();
-    }
-    void addToken(Token tok){
-        in.add(tok);
-    }
-}
-class PrintOut implements Node{
-    Content contents;
-    PrintOut(Content Contents){
-        this.contents = Contents;
+    public int execute(){
+        if (op.getValue() == "ADDITION") {
+            return Integer.parseInt(left.getToken().getValue()) + Integer.parseInt(right.getToken().getValue());
+        }
+        else if((op.getValue() == "SUBTRACTION")){
+            return Integer.parseInt(left.getToken().getValue()) - Integer.parseInt(right.getToken().getValue());
+        }
+        else if((op.getValue() == "MULTIPLICATION")){
+            return Integer.parseInt(left.getToken().getValue()) * Integer.parseInt(right.getToken().getValue());
+        }
+        else if((op.getValue() == "DIVISION")){
+            return Integer.parseInt(left.getToken().getValue()) / Integer.parseInt(right.getToken().getValue());
+        }
+        else if((op.getValue() == "MODULUS")){
+            return Integer.parseInt(left.getToken().getValue()) % Integer.parseInt(right.getToken().getValue());
+        }
+        return 0;
     }
 }

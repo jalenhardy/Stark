@@ -22,6 +22,17 @@ public class Lexer {
         run();
 
     }
+    public Lexer(String data, int n){
+        tokens = new ArrayList<>();
+
+        try{
+            scanner = new Scanner(data);
+
+        }catch(Error e){
+            System.out.print("ERROR....");
+        }
+        run();
+    }
 
     private void run(){
         String word;
@@ -48,7 +59,7 @@ public class Lexer {
                         break;
                     }
                     case "*":{
-                        tokens.add(new Token(TokenType.OPERATION, "*MULTIPLICATION"));
+                        tokens.add(new Token(TokenType.OPERATION, "MULTIPLICATION"));
                         break;
                     }
                     case "/":{

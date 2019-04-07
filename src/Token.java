@@ -14,9 +14,11 @@ public class Token{
     public String getValue(){
         return this.value;
     }
+    /*
     public Token getToken(){
         return this;
     }
+    */
 
     @Override
     public String toString() {
